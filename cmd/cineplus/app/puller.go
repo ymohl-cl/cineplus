@@ -1,4 +1,4 @@
-package puller
+package app
 
 import (
 	"fmt"
@@ -9,18 +9,15 @@ import (
 
 // Puller configuration
 type Puller struct {
-	GhibliDriver ghibli.Client
-	TickTimer    int64
-	done         chan bool
+	ghibli    ghibli.Client
+	tickTimer int64
+	done      chan bool
+	cache     *Cache
 }
 
 // Start the puller data
 func (p *Puller) Start() {
-	var movies []ghibli.Movie
-	var peoples []ghibli.People
-	var err error
-
-	ticker := time.NewTicker(time.Duration(p.TickTimer) * time.Second)
+	ticker := time.NewTicker(time.Duration(p.tickTimer) * time.Millisecond)
 	p.done = make(chan bool)
 
 	go func() {
@@ -29,15 +26,18 @@ func (p *Puller) Start() {
 			case <-p.done:
 				return
 			case <-ticker.C:
-				if movies, err = p.GhibliDriver.Movies(); err != nil {
+				movies, err := p.ghibli.Movies()
+				if err != nil {
 					fmt.Println("error to get the movies list: ", err.Error())
 				}
 				fmt.Println("movies: ", movies)
 
-				if peoples, err = p.GhibliDriver.Peoples(); err != nil {
+				peoples, err := p.ghibli.Peoples()
+				if err != nil {
 					fmt.Println("error to get the peoples list: ", err.Error())
 				}
 				fmt.Println("peoples: ", peoples)
+				p.cache.Update(&movies, &peoples)
 			}
 		}
 	}()

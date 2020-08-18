@@ -4,29 +4,17 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/ymohl-cl/cineplus/cmd/cineplus/puller"
-	"github.com/ymohl-cl/cineplus/pkg/ghibli"
+	"github.com/ymohl-cl/cineplus/cmd/cineplus/app"
 )
 
 var appName = flag.String("appName", "cineplus", "application name")
 
 func main() {
-	var err error
-	var conf Config
-	var ghibliDriver ghibli.Client
-
-	if conf, err = NewConfig(*appName); err != nil {
-		fmt.Println("Can't load application parameters env: ", err.Error())
+	app, err := app.New(*appName)
+	if err != nil {
+		fmt.Printf("Failed to load application: %s", err.Error())
 	}
-	if ghibliDriver, err = ghibli.New(*appName); err != nil {
-		fmt.Println("error to initialize the ghibli client: ", err.Error())
-		return
+	if err := app.Start(); err != nil {
+		fmt.Printf("Error occurred: %s", err.Error())
 	}
-	pullerDriver := puller.Puller{
-		GhibliDriver: ghibliDriver,
-		TickTimer:    conf.RefreshTime,
-	}
-	defer pullerDriver.Close()
-	go pullerDriver.Start()
-	fmt.Println("All is done !")
 }

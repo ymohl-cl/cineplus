@@ -1,10 +1,11 @@
-package main
+package app
 
 import "github.com/kelseyhightower/envconfig"
 
 // Config api cineplus
 type Config struct {
-	RefreshTime int64 `requires:"true"`
+	RefreshTime int64  `required:"true"`
+	Port        string `required:"true"`
 }
 
 // NewConfig parse the environment values to return a initialized configuration
