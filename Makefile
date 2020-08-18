@@ -30,8 +30,8 @@ build:
 
 .PHONY: clean
 clean:
-	if [ -f ${COVERAGE_FILE} ]; then
-		rm -rf ${COVERAGE_FILE}
+	if [ -f ${COVERAGE_FILE} ]; then \
+		rm -rf ${COVERAGE_FILE}; \
 	fi
 
 .PHONY: fclean
