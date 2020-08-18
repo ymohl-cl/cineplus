@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    cineplus:
+        build:
+            context: .
+            dockerfile: cmd/cineplus/Dockerfile
+        ports:
+            - 8000:8000
+        restart: always
+        environment:
+            - CINEPLUS_URL=https://ghibliapi.herokuapp.com
+
