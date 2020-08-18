@@ -30,6 +30,7 @@ If you have to skip some important work due to time limitations, feel free to ad
   - [Build usage](#build-usage)
     - [From Makefile](#from-makefile)
     - [From docker-compose](#from-docker-compose)
+  - [API Response](#api-response)
   - [Github actions](#github-actions)
   - [HTTP Framework](#http-framework)
   - [Versionning](#versionning)
@@ -83,6 +84,33 @@ docker-compose up --remove-orphans --build
 ```
 
 You can update the environments values from the docker-compose.yml file.
+
+## API Response
+
+``` json
+{
+  "movies":[
+    {
+      "identifier":"movie_identifier",
+      "title":"movie_title",
+      "description":"movie_description",
+      "director":"movie_director",
+      "producer":"movie_producer",
+      "release_date":"movie_release_date",
+      "score":"movie_score",
+      "peopleIds":["people_identifier_1", "people_identifier_2"]
+    }
+  ],
+  "peoples":[
+    {
+      "id":"people_identifier",
+      "name":"people_name",
+      "gender":"people_gender",
+      "age":"people_age",
+    }
+  ]
+}
+```
 
 ## Github actions
 
