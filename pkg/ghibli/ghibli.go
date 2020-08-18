@@ -66,8 +66,7 @@ func (c client) Movies() ([]Movie, error) {
 		return nil, err
 	}
 	if response.StatusCode != http.StatusOK {
-		fmt.Println("Request to ghibli client return an error: ", response.Status)
-		return nil, errors.New(ErrorGhibliRequest)
+		return nil, errors.New(ErrorGhibliRequest + " with status " + response.Status)
 	}
 	if err = json.NewDecoder(response.Body).Decode(&movies); err != nil {
 		return nil, errors.New(ErrorInternal)
@@ -89,7 +88,7 @@ func (c client) Peoples() ([]People, error) {
 	}
 	if response.StatusCode != http.StatusOK {
 		fmt.Println("Request to ghibli client return an error: ", response.Status)
-		return nil, errors.New(ErrorGhibliRequest)
+		return nil, errors.New(ErrorGhibliRequest + " with status " + response.Status)
 	}
 	if err = json.NewDecoder(response.Body).Decode(&peoples); err != nil {
 		return nil, errors.New(ErrorInternal)

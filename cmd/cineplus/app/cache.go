@@ -27,7 +27,11 @@ func (c *Cache) Data() (movies []ghibli.Movie, peoples []ghibli.People) {
 	c.Lock()
 	defer c.Unlock()
 
-	movies = *c.movies
-	peoples = *c.peoples
-	return movies, peoples
+	if c.movies != nil {
+		movies = *(c.movies)
+	}
+	if c.peoples != nil {
+		peoples = *(c.peoples)
+	}
+	return
 }

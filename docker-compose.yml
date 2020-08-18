@@ -10,4 +10,6 @@ services:
         restart: always
         environment:
             - CINEPLUS_URL=https://ghibliapi.herokuapp.com
+            - CINEPLUS_REFRESHTIME=60000
+            - CINEPLUS_PORT=8000
 

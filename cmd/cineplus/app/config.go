@@ -1,6 +1,6 @@
 package app
 
-import "github.com/kelseyhightower/envconfig"
+import "github.com/ymohl-cl/cineplus/pkg/config"
 
 // Config api cineplus
 type Config struct {
@@ -13,7 +13,7 @@ func NewConfig(appName string) (Config, error) {
 	var err error
 	var c Config
 
-	if err = envconfig.Process(appName, &c); err != nil {
+	if err = config.ParseEnv(appName, &c); err != nil {
 		return Config{}, err
 	}
 	return c, nil

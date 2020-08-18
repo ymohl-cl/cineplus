@@ -17,7 +17,8 @@ type Puller struct {
 
 // Start the puller data
 func (p *Puller) Start() {
-	ticker := time.NewTicker(time.Duration(p.tickTimer) * time.Millisecond)
+	p.pull()
+	t := time.NewTicker(time.Duration(p.tickTimer) * time.Millisecond)
 	p.done = make(chan bool)
 
 	go func() {
@@ -25,22 +26,25 @@ func (p *Puller) Start() {
 			select {
 			case <-p.done:
 				return
-			case <-ticker.C:
-				movies, err := p.ghibli.Movies()
-				if err != nil {
-					fmt.Println("error to get the movies list: ", err.Error())
-				}
-				fmt.Println("movies: ", movies)
-
-				peoples, err := p.ghibli.Peoples()
-				if err != nil {
-					fmt.Println("error to get the peoples list: ", err.Error())
-				}
-				fmt.Println("peoples: ", peoples)
-				p.cache.Update(&movies, &peoples)
+			case <-t.C:
+				p.pull()
 			}
 		}
 	}()
+}
+
+func (p *Puller) pull() {
+	movies, err := p.ghibli.Movies()
+	if err != nil {
+		fmt.Println("error to get the movies list: ", err.Error())
+		return
+	}
+	peoples, err := p.ghibli.Peoples()
+	if err != nil {
+		fmt.Println("error to get the peoples list: ", err.Error())
+		return
+	}
+	p.cache.Update(&movies, &peoples)
 }
 
 // Close stop the puller
