@@ -31,6 +31,7 @@ If you have to skip some important work due to time limitations, feel free to ad
     - [From Makefile](#from-makefile)
     - [From docker-compose](#from-docker-compose)
   - [Github actions](#github-actions)
+  - [HTTP Framework](#http-framework)
   - [Versionning](#versionning)
   - [Contact](#contact)
 
@@ -78,7 +79,7 @@ make build
 ### From docker-compose
 
 ``` bash
-docker-compose up docker-compose up --remove-orphans --build
+docker-compose up --remove-orphans --build
 ```
 
 You can update the environments values from the docker-compose.yml file.
@@ -86,6 +87,10 @@ You can update the environments values from the docker-compose.yml file.
 ## Github actions
 
 A github action is executed at each push and pull request to pass the linter, the tests and the build process.
+
+## HTTP Framework
+
+I choice [Echo](github.com/labstack/echo) from labstack because it is a easy, complete and light framework. Of course, i could have used [gorilla mux](github.com/gorilla/mux) or other.
 
 ## Versionning
 
